@@ -10,6 +10,18 @@ const PORT: number = parseInt(process.env.PORT || "3000", 10);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
+
+console.log("Swagger cargado correctamente");
+
 app.use('/health', healthRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/projects', projectsRouter);
@@ -34,4 +46,3 @@ console.log(`👥 Usuarios: http://localhost:${PORT}/api/users`);
 console.log(`📁 Proyectos: http://localhost:${PORT}/api/projects\n`);
 });
 export default app;
-  
